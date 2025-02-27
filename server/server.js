@@ -9,7 +9,11 @@ const app = express();
 // 配置body-parser中间件
 app.use(express.json());
 
-app.use(cors());
+app.use(cors({
+  origin: ['http://localhost:5173', 'https://chat-app-server-production.up.railway.app', 'https://chat-app-production.netlify.app'],
+  methods: ['GET', 'POST'],
+  credentials: true
+}));
 
 // 添加请求头处理中间件
 app.use((req, res, next) => {
