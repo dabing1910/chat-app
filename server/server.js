@@ -10,12 +10,36 @@ const app = express();
 app.use(express.json());
 
 app.use(cors({
-  origin: ['http://localhost:5173', 'https://chat-app-server-production.up.railway.app', 'https://chat-app-production.netlify.app', 'https://cerulean-piroshki-e8f994.netlify.app', 'https://trea.netlify.app'],
+  origin: function(origin, callback) {
+    const allowedOrigins = [
+      'http://localhost:5173',
+      'https://chat-app-server-production.up.railway.app',
+      'https://chat-app-production.netlify.app',
+      'https://cerulean-piroshki-e8f994.netlify.app',
+      'https://trea.netlify.app'
+    ];
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('不允许的来源'));
+    }
+  },
   methods: ['GET', 'POST', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
   credentials: true,
-  maxAge: 86400
+  maxAge: 86400,
+  optionsSuccessStatus: 204
 }));
+
+// 添加额外的CORS响应头
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', req.headers.origin || '*');
+  res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  res.header('Access-Control-Allow-Credentials', 'true');
+  res.header('Access-Control-Max-Age', '86400');
+  next();
+});
 
 // 添加请求头处理中间件
 app.use((req, res, next) => {
