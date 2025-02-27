@@ -10,7 +10,7 @@ const app = express();
 app.use(express.json());
 
 app.use(cors({
-  origin: ['http://localhost:5173', 'https://chat-app-server-production.up.railway.app', 'https://chat-app-production.netlify.app'],
+  origin: ['http://localhost:5173', 'https://chat-app-server-production.up.railway.app', 'https://chat-app-production.netlify.app', 'https://cerulean-piroshki-e8f994.netlify.app', 'https://trea.netlify.app'],
   methods: ['GET', 'POST'],
   credentials: true
 }));
