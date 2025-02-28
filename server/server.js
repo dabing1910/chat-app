@@ -15,26 +15,25 @@ const allowedOrigins = process.env.ALLOWED_ORIGINS
 
 // 配置 CORS
 app.use(cors({
-  origin: function(origin, callback) {
-    if (!origin || allowedOrigins.indexOf(origin) !== -1) {
-      callback(null, true);
-    } else {
-      callback(new Error('Not allowed by CORS'));
-    }
-  },
+  origin: 'http://localhost:5173',
   methods: ['GET', 'POST', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
   credentials: true,
-  preflightContinue: false,
   optionsSuccessStatus: 204
 }));
 
+// 处理所有路由的 OPTIONS 请求
+app.options('*', cors());
+
 // 添加额外的 CORS 头部中间件
 app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', req.headers.origin || '*');
+  res.header('Access-Control-Allow-Origin', 'http://localhost:5173');
   res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
   res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
   res.header('Access-Control-Allow-Credentials', 'true');
+  if (req.method === 'OPTIONS') {
+    return res.status(204).end();
+  }
   next();
 });
 
@@ -57,11 +56,6 @@ const DEEPSEEK_API_URL = 'https://api.deepseek.com/v1/chat/completions';
 
 app.get('/', (req, res) => {
   res.json({ status: 'Chat API Server is running' });
-});
-
-// 处理OPTIONS预检请求
-app.options('/api/chat', (req, res) => {
-  res.sendStatus(204);
 });
 
 // 验证请求体的函数
