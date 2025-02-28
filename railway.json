@@ -8,11 +8,21 @@
     "restartPolicyType": "ON_FAILURE",
     "restartPolicyMaxRetries": 10
   },
-  "headers": {
-    "Access-Control-Allow-Origin": "http://localhost:5173",
-    "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
-    "Access-Control-Allow-Headers": "Content-Type, Authorization",
-    "Access-Control-Allow-Credentials": "true",
-    "Access-Control-Max-Age": "86400"
-  }
+  "routes": [
+    {
+      "src": "/api/chat",
+      "methods": ["OPTIONS", "POST"],
+      "headers": {
+        "Access-Control-Allow-Origin": "http://localhost:5173, https://chat-app-production-1356.up.railway.app",
+        "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
+        "Access-Control-Allow-Headers": "Content-Type, Authorization",
+        "Access-Control-Allow-Credentials": "true",
+        "Access-Control-Max-Age": "86400"
+      }
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/"
+    }
+  ]
 } 

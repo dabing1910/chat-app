@@ -11,7 +11,7 @@ app.use(express.json());
 
 const allowedOrigins = process.env.ALLOWED_ORIGINS 
   ? process.env.ALLOWED_ORIGINS.split(',') 
-  : ['https://cerulean-piroshki-e8f994.netlify.app', 'http://localhost:5173'];
+  : ['https://cerulean-piroshki-e8f994.netlify.app', 'http://localhost:5173', 'https://chat-app-production-1356.up.railway.app'];
 
 // 配置 CORS
 app.use(cors({
