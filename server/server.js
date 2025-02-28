@@ -9,26 +9,21 @@ const app = express();
 // 配置body-parser中间件
 app.use(express.json());
 
-// 配置CORS中间件
+const allowedOrigins = process.env.ALLOWED_ORIGINS 
+  ? process.env.ALLOWED_ORIGINS.split(',') 
+  : ['https://cerulean-piroshki-e8f994.netlify.app', 'http://localhost:5173'];
+
+// 配置 CORS
 app.use(cors({
-  origin: (origin, callback) => {
-    const allowedOrigins = [
-      'https://cerulean-piroshki-e8f994.netlify.app',
-      'http://localhost:5173',
-      'http://localhost:5174'
-    ];
-    if (!origin || allowedOrigins.includes(origin)) {
+  origin: function(origin, callback) {
+    if (!origin || allowedOrigins.indexOf(origin) !== -1) {
       callback(null, true);
     } else {
-      console.log('Blocked by CORS for origin:', origin);
       callback(new Error('Not allowed by CORS'));
     }
   },
-  methods: ['GET', 'POST', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization'],
-  credentials: true,
-  maxAge: 86400,
-  optionsSuccessStatus: 204
+  methods: ['GET', 'POST'],
+  allowedHeaders: ['Content-Type']
 }));
 
 // 添加请求体解析错误处理
