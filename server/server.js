@@ -11,10 +11,22 @@ app.use(express.json());
 
 // 配置CORS中间件
 app.use(cors({
-  origin: '*',
+  origin: (origin, callback) => {
+    const allowedOrigins = [
+      'https://cerulean-piroshki-e8f994.netlify.app',
+      'http://localhost:5173',
+      'http://localhost:5174'
+    ];
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      console.log('Blocked by CORS for origin:', origin);
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
   methods: ['GET', 'POST', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
-  credentials: false,
+  credentials: true,
   maxAge: 86400,
   optionsSuccessStatus: 204
 }));
@@ -38,6 +50,11 @@ const DEEPSEEK_API_URL = 'https://api.deepseek.com/v1/chat/completions';
 
 app.get('/', (req, res) => {
   res.json({ status: 'Chat API Server is running' });
+});
+
+// 处理OPTIONS预检请求
+app.options('/api/chat', (req, res) => {
+  res.sendStatus(204);
 });
 
 // 验证请求体的函数
