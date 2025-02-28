@@ -172,6 +172,8 @@ const Chat = () => {
       <Box p={4} borderTop="1px" borderColor="gray.200" bg="white">
         <HStack spacing={3}>
           <Input
+            id="chatInput"
+            name="chatInput"
             value={newMessage}
             onChange={(e) => setNewMessage(e.target.value)}
             placeholder="输入消息..."

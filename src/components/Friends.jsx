@@ -48,6 +48,8 @@ const Friends = () => {
             <SearchIcon color="gray.300" />
           </InputLeftElement>
           <Input
+            id="friendSearch"
+            name="friendSearch"
             placeholder="搜索好友"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}

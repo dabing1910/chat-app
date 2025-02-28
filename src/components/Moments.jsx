@@ -61,6 +61,8 @@ const Moments = () => {
     <Container maxW="container.md" py={4}>
       <Box mb={6} p={4} borderWidth="1px" borderRadius="lg">
         <Textarea
+          id="momentText"
+          name="momentText"
           value={newMomentText}
           onChange={(e) => setNewMomentText(e.target.value)}
           placeholder="分享新鲜事..."
@@ -100,6 +102,8 @@ const Moments = () => {
             添加图片
           </Button>
           <input
+            id="imageUpload"
+            name="imageUpload"
             type="file"
             multiple
             accept="image/*"
